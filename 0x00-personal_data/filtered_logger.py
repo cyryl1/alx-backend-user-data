@@ -10,6 +10,7 @@ import mysql.connector
 
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
+
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     """Returns the log message obfuscate"""
@@ -47,6 +48,7 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     )
 
     return connection
+
 
 def main():
     """
@@ -87,7 +89,7 @@ class RedactingFormatter(logging.Formatter):
         record.msg = filter_datum(self.fields, self.REDACTION,
                                   record.getMessage(), self.SEPARATOR)
         return super(RedactingFormatter, self).format(record)
-    
+
 
     if __name__ == '__main__':
         main()
