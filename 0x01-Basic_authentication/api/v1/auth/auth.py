@@ -25,7 +25,7 @@ class Auth:
         for excluded_path in excluded_paths:
             if norm_path.startswith(excluded_path):
                 return False
-        
+
         for excluded_path in excluded_paths:
             if fnmatch.fnmatch(path, excluded_path):
                 return False
