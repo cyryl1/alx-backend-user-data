@@ -13,7 +13,7 @@ class Auth:
         """Checks if the request path is authenticated"""
         if path is None:
             return True
-        if excluded_paths is None or excluded_paths == []:
+        if excluded_paths is None or len(excluded_paths) == 0:
             return True
 
         for excluded_path in excluded_paths:
