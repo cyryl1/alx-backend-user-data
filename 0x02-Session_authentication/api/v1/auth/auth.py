@@ -47,3 +47,8 @@ class Auth:
         on the authorization header
         """
         return None
+    
+    def session_cookie(self, request=None):
+        if request is None:
+            return None
+        
