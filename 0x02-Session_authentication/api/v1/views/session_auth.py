@@ -30,9 +30,9 @@ def auth_session_login():
 
     from api.v1.app import auth
     session_id = auth.create_session(user.id)
+    session_name = getenv('SESSION_NAME')
 
     response = make_response(user.to_json())
-    session_name = getenv('SESSION_NAME')
     response.set_cookie(session_name, session_id)
 
     return response
