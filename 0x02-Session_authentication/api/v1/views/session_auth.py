@@ -5,12 +5,12 @@ from flask import jsonify, request, abort, make_response
 from api.v1.views import app_views
 from models.user import User
 from os import getenv
-from api.v1.app import auth
 
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
 def auth_session_login():
     """Handles login for session authentication"""
+    from api.v1.app import auth
     email = request.form.get('email')
     password = request.form.get('password')
 
@@ -44,6 +44,7 @@ def logout():
     """
     Route to logout the user by destroing their session.
     """
+    from api.v1.app import auth
     if not auth.destroy_session(request):
         abort(404)
     return jsonify({}), 200

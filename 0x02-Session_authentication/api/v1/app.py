@@ -62,8 +62,10 @@ def before_request():
 def not_found(error) -> str:
     """ 
     Handles the Error Not found.
+    Parameter:
+        - Error
     Return:
-        - Not Found error
+        - 404 if Not Found
     """
     return jsonify({"error": "Not found"}), 404
 
@@ -72,8 +74,10 @@ def not_found(error) -> str:
 def unauthorized(error) -> str:
     """ 
     Unauthorized handler
+    Parameter:
+        - Error
     Return:
-        The Unauthorized Error
+        - 401 if Unauthorized
     """
     return jsonify({"error": "Unauthorized"}), 401
 
@@ -82,8 +86,10 @@ def unauthorized(error) -> str:
 def forbidden(error) -> str:
     """ 
     Forbidden handler
+    Parameter:
+        - Error
     Return:
-        The Forbidden Error
+        - 403 if Forbidden
     """
     return jsonify({"error": "Forbidden"}), 403
 
