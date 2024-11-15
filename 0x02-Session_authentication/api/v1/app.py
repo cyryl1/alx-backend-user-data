@@ -31,7 +31,6 @@ def before_request():
     """
     Handles authentication checks before each request
     """
-    print("Running before handler")
     if auth is None:
         return
     path = request.path
@@ -52,21 +51,30 @@ def before_request():
 
 @app.errorhandler(404)
 def not_found(error) -> str:
-    """ Not found handler
+    """ 
+    Handles the Error Not found.
+    Return:
+        - Not Found error
     """
     return jsonify({"error": "Not found"}), 404
 
 
 @app.errorhandler(401)
 def unauthorized(error) -> str:
-    """ Unauthorized handler
+    """ 
+    Unauthorized handler
+    Return:
+        The Unauthorized Error
     """
     return jsonify({"error": "Unauthorized"}), 401
 
 
 @app.errorhandler(403)
 def forbidden(error) -> str:
-    """ Forbidden handler
+    """ 
+    Forbidden handler
+    Return:
+        The Forbidden Error
     """
     return jsonify({"error": "Forbidden"}), 403
 
