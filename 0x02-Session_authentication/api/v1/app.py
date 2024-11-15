@@ -2,7 +2,7 @@
 """
 Route module for the API
 """
-from os import getenv # Import os for environment variable access
+from os import getenv  # Import os for environment variable access
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
 from flask_cors import (CORS, cross_origin)
@@ -60,7 +60,7 @@ def before_request():
 
 @app.errorhandler(404)
 def not_found(error) -> str:
-    """ 
+    """
     Handles the Error Not found.
     Parameter:
         - Error
@@ -72,7 +72,7 @@ def not_found(error) -> str:
 
 @app.errorhandler(401)
 def unauthorized(error) -> str:
-    """ 
+    """
     Unauthorized handler
     Parameter:
         - Error
@@ -84,7 +84,7 @@ def unauthorized(error) -> str:
 
 @app.errorhandler(403)
 def forbidden(error) -> str:
-    """ 
+    """
     Forbidden handler
     Parameter:
         - Error
