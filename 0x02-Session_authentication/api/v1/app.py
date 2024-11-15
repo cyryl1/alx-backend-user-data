@@ -2,7 +2,7 @@
 """
 Route module for the API
 """
-from os import getenv
+from os import getenv # Import os for environment variable access
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
 from flask_cors import (CORS, cross_origin)
@@ -14,6 +14,7 @@ from api.v1.auth.auth import Auth
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
+# Allow cross-origin requests for all routes under /api/v1/*
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 auth = None
@@ -29,7 +30,15 @@ else:
 @app.before_request
 def before_request():
     """
-    Handles authentication checks before each request
+    Runs before each request to handle authentication checks.
+
+    Checks if the request path requires authentication. If so, validates
+    the authorization header or session cookie. Sets the current_user
+    in the request object if authentication is successful.
+
+    Raises:
+        401: If no valid authentication is provided.
+        403: If the user cannot be authenticated.
     """
     if auth is None:
         return
@@ -80,6 +89,7 @@ def forbidden(error) -> str:
 
 
 if __name__ == "__main__":
+    # Start the Flask application with the specified host and port
     host = getenv("API_HOST", "0.0.0.0")
     port = getenv("API_PORT", "5000")
     app.run(host=host, port=port)
