@@ -36,8 +36,6 @@ class DB:
         """
         Add a new user to the database and return the user object
         """
-        if email is None or hashed_password is None:
-            raise ValueError("Email and password cannot be None")
         user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
