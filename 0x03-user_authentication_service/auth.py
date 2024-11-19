@@ -107,3 +107,19 @@ class Auth:
         except Exception as e:
             self._db.rollback_changes()
             raise e
+
+    def get_reset_password_token(self, email: str) -> str:
+        """
+        Creates a reset token
+        Args:
+            email: str
+        Returns:
+            str
+        """
+        try:
+            user = self._db.find_user_by(email=email)
+        except ValueError:
+            raise ValueError("Invalid email")
+        reset_token = _generate_uuid()
+        user.reset_token = reset_token
+        return reset_token
