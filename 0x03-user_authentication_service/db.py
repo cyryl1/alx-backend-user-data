@@ -94,3 +94,11 @@ class DB:
         except Exception as e:
             self._session.rollback()
             raise e
+
+    def commit_changes(self) -> None:
+        """Public method to commit changes to the database"""
+        self._session.commit()
+
+    def rollback_changes(self) -> None:
+        """Public method to roll back changes to the database"""
+        self._session.rollback()

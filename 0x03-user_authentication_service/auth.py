@@ -73,7 +73,8 @@ class Auth:
         user.session_id = session_id
         return session_id
 
-    def get_user_from_session_id(self, session_id: Optional[str]) -> Optional[User]:
+    def get_user_from_session_id(self,
+                                 session_id: Optional[str]) -> Optional[User]:
         """
         Finds a user using the session_id
         Args:
@@ -88,3 +89,21 @@ class Auth:
             return user
         except NoResultFound:
             return None
+
+    def destroy_session(self, user_id: int) -> None:
+        """
+        Removes the session id for a particular user
+        Args:
+            user_id: int
+        Returns:
+            None
+        """
+        try:
+            user = self._db.find_user_by(id=user_id)
+            user.session_id = None
+            self._db.commit_changes()
+        except NoResultFound:
+            pass
+        except Exception as e:
+            self._db.rollback_changes()
+            raise e
