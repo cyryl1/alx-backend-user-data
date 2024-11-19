@@ -2,7 +2,10 @@
 """
 Main file
 """
+import logging
 from auth import Auth
+
+logging.basicConfig(level=logging.CRITICAL)
 
 email = 'bob@bob.com'
 password = 'MyPwdOfBob'
