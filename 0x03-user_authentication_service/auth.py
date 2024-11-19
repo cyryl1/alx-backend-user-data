@@ -71,6 +71,7 @@ class Auth:
             return None
         session_id = _generate_uuid()
         user.session_id = session_id
+        self._db.commit_changes()
         return session_id
 
     def get_user_from_session_id(self,
@@ -123,3 +124,21 @@ class Auth:
         reset_token = _generate_uuid()
         user.reset_token = reset_token
         return reset_token
+
+    def update_password(self, rest_token: str, password: str) -> None:
+        """
+        This updates a password using the rest token
+        Args:
+            reset_token: str,
+            password: str
+        Returns:
+            None
+        """
+        try:
+            user = self._db.find_user_by(rest_token=rest_token)
+        except ValueError:
+            raise ValueError("Invalid reset token")
+        hashed_password = _hash_password(password)
+        user.password = hashed_password
+        user.reset_token = None
+        self._db.commit_changes()
