@@ -134,9 +134,8 @@ class Auth:
         Returns:
             None
         """
-        try:
-            user = self._db.find_user_by(rest_token=rest_token)
-        except ValueError:
+        user = self._db.find_user_by(rest_token=rest_token)
+        if not user:
             raise ValueError("Invalid reset token")
         hashed_password = _hash_password(password)
         user.password = hashed_password
