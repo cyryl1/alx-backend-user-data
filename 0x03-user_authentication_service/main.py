@@ -10,6 +10,7 @@ PASSWD = "b4l0u"
 NEW_PASSWD = "t4rt1fl3tt3"
 # session_id=f883d76a-f25d-44be-a46b-9de00dd61086
 
+
 def register_user(email: str, password: str) -> None:
     """Register a new user."""
     response = requests.post(
@@ -106,7 +107,6 @@ def update_password(email: str, reset_token: str, new_password: str) -> None:
     assert response.status_code == 200
     assert response.json() == {"email": email, "message": "Password updated"}
     # print("Password updated successfully")
-
 
 
 if __name__ == "__main__":

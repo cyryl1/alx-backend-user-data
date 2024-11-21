@@ -127,8 +127,8 @@ def update_password():
         )
         if update:
             return jsonify({
-            "email": email,
-            "message": "Password updated"
+                "email": email,
+                "message": "Password updated"
             }), 200
     except ValueError:
         return jsonify({"message": "Invalid reset_token"}), 403
