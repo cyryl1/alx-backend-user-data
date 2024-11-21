@@ -131,8 +131,8 @@ def update_password():
                 "message": "Password updated"
             }), 200
     except ValueError:
-        return jsonify({"message": "Invalid reset_token"}), 403
-        # abort(403, description="Invalid reset_token")
+        # return jsonify({"message": "Invalid reset_token"}), 403
+        abort(403, description="Invalid reset_token")
 
 
 if __name__ == "__main__":
