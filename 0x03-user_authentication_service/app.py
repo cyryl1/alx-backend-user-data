@@ -49,21 +49,20 @@ def login():
     password = request.form.get('password')
 
     if not email or not password:
-        abort(400, description="Email and password required!")
-    valid_login = AUTH.valid_login(email=email, password=password)
-    if not valid_login:
+        abort(401, description="Email and password required!")
+    if not AUTH.valid_login(email=email, password=password):
         abort(401, description="Invalid login credentials")
 
     session_id = AUTH.create_session(email=email)
     if not session_id:
-        abort(401, description="Invalid login credentials")
+        abort(401, description="could not create session")
 
     response = make_response(
         jsonify({"email": email, "message": "logged in"})
     )
     response.set_cookie('session_id', session_id)
 
-    return response
+    return response, 200
 
 
 @app.route('/sessions', methods=['DELETE'])
@@ -118,21 +117,23 @@ def update_password():
     """
     This updates the password
     """
-    email = request.form.get('email')
-    reset_token = request.form.get('reset_token')
-    new_password = request.form.get('new_password')
-    update = AUTH.update_password(
-        rest_token=reset_token,
-        password=new_password
-    )
-    if not update:
-        abort(403, description="Invalid reset_token")
-
-    return jsonify({
-        "email": email,
-        "message": "Password updated"
-    }), 200
+    try:
+        email = request.form.get('email')
+        reset_token = request.form.get('reset_token')
+        new_password = request.form.get('new_password')
+        update = AUTH.update_password(
+            rest_token=reset_token,
+            password=new_password
+        )
+        if update:
+            return jsonify({
+            "email": email,
+            "message": "Password updated"
+            }), 200
+    except ValueError:
+        return jsonify({"message": "Invalid reset_token"}), 403
+        # abort(403, description="Invalid reset_token")
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="5000")
+    app.run(host="0.0.0.0", port="5000", debug=True)

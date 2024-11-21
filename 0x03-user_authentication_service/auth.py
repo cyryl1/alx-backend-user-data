@@ -138,6 +138,6 @@ class Auth:
         if not user:
             raise ValueError("Invalid reset token")
         hashed_password = _hash_password(password)
-        user.password = hashed_password
+        user.hashed_password = hashed_password
         user.reset_token = None
         self._db.commit_changes()

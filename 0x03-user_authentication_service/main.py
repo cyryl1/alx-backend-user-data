@@ -5,7 +5,10 @@ Main file
 import requests
 
 BASE_URL = "http://172.20.10.14:5000"
-
+EMAIL = "guillaume@holberton.io"
+PASSWD = "b4l0u"
+NEW_PASSWD = "t4rt1fl3tt3"
+# session_id=f883d76a-f25d-44be-a46b-9de00dd61086
 
 def register_user(email: str, password: str) -> None:
     """Register a new user."""
@@ -13,12 +16,14 @@ def register_user(email: str, password: str) -> None:
         f"{BASE_URL}/users",
         data={"email": email, "password": password}
     )
+    # print(f"Status code: {response.status_code}")
+    # print(f"Response body: {response.text}")
     assert response.status_code == 201
     assert response.json() == {
         "email": email,
         "message": "user created"
     }
-    print("User registration successful")
+    # print("User registration successful")
 
 
 def log_in_wrong_password(email: str, password: str) -> None:
@@ -28,7 +33,7 @@ def log_in_wrong_password(email: str, password: str) -> None:
         data={"email": email, "password": password}
     )
     assert response.status_code == 401
-    print("Login with wrong password rejected as expected")
+    # print("Login with wrong password rejected as expected")
 
 
 def log_in(email: str, password: str) -> str:
@@ -43,7 +48,7 @@ def log_in(email: str, password: str) -> str:
     assert "message" in payload and payload["message"] == "logged in"
     session_id = response.cookies.get("session_id")
     assert session_id is not None
-    print("Login successful")
+    # print("Login successful")
     return session_id
 
 
@@ -51,7 +56,7 @@ def profile_unlogged() -> None:
     """Attempt to access profile while not logged in."""
     response = requests.get(f"{BASE_URL}/profile")
     assert response.status_code == 403
-    print("Accessing profile while unlogged rejected")
+    # print("Accessing profile while unlogged rejected")
 
 
 def profile_logged(session_id: str) -> None:
@@ -60,7 +65,7 @@ def profile_logged(session_id: str) -> None:
     response = requests.get(f"{BASE_URL}/profile", cookies=cookies)
     assert response.status_code == 200
     assert "email" in response.json()
-    print("Accessing profile while logged in successful")
+    # print("Accessing profile while logged in successful")
 
 
 def log_out(session_id: str) -> None:
@@ -71,7 +76,7 @@ def log_out(session_id: str) -> None:
         cookies=cookies
     )
     assert response.status_code == 200
-    print("Logout successful")
+    # print("Logout successful")
 
 
 def reset_password_token(email: str) -> str:
@@ -84,7 +89,7 @@ def reset_password_token(email: str) -> str:
     payload = response.json()
     assert "email" in payload and payload["email"] == email
     assert "reset_token" in payload
-    print("Password reset token generated successfully")
+    # print("Password reset token generated successfully")
     return payload["reset_token"]
 
 
@@ -100,12 +105,8 @@ def update_password(email: str, reset_token: str, new_password: str) -> None:
     )
     assert response.status_code == 200
     assert response.json() == {"email": email, "message": "Password updated"}
-    print("Password updated successfully")
+    # print("Password updated successfully")
 
-
-EMAIL = "guillaume@holberton.io"
-PASSWD = "b4l0u"
-NEW_PASSWD = "t4rt1fl3tt3"
 
 
 if __name__ == "__main__":
